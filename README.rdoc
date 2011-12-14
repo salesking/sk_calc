@@ -1,0 +1,32 @@
+= SalesKing Calculation
+
+Why?
+
+1. We have had enough of "How do you calculate?"-Questions
+2. Ever stumbled upon rounding problems, when calculating totals?
+3. Wouldn't it be nice to change a calculation strategy?
+
+We decided to open-source this part, so everybody can transparently see 
+how we calculate item and document totals. 
+
+You can take advantage of this lib for example when using our API and 
+mixing it into your local classes.
+
+
+== Install
+
+  gem install sk_calc
+
+
+== Classes
+
+
+== Usage
+
+Comming ..
+
+  require 'sk_calc'
+
+== Tests
+
+Copyright (c) 2011 Georg Leciejewski, released under the MIT license
