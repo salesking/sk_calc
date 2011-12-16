@@ -1,3 +1,4 @@
+require 'bigdecimal'
 module SK
   # calculation module
   # == Usage
