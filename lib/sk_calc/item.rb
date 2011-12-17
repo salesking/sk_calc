@@ -3,6 +3,7 @@
 # - discount
 # - price_single
 # - quantity
+# - precision
 # - tax
 module SK::Calc::Item
   # Total gross price incl. discount

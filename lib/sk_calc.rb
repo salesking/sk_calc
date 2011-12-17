@@ -14,6 +14,7 @@ module SK
 
     def self.included(base)
       autoload :Item, 'sk_calc/item'
+      autoload :Items, 'sk_calc/items'
       base.extend(ClassMethods)
   #    base.send(:include, InstanceMethods)
     end

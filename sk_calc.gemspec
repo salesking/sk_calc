@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Georg Leciejewski"]
-  s.date = %q{2011-12-15}
+  s.date = %q{2011-12-17}
   s.description = %q{Calculate document and line item totals. This moule is used inside SalesKIng and outsourced for transparency and reusability.}
   s.email = %q{gl@salesking.eu}
   s.extra_rdoc_files = [
@@ -22,6 +22,8 @@ Gem::Specification.new do |s|
     "ci/Gemfile",
     "lib/sk_calc.rb",
     "lib/sk_calc/item.rb",
+    "sk_calc.gemspec",
+    "spec/sk_calc/item_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/salesking/sk_calc}
