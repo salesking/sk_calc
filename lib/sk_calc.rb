@@ -1,4 +1,5 @@
 require 'bigdecimal'
+require "active_support/core_ext/enumerable"
 module SK
   # calculation module
   # == Usage
@@ -13,6 +14,7 @@ module SK
   module Calc
 
     def self.included(base)
+      autoload :Helper, 'sk_calc/helper'
       autoload :Item, 'sk_calc/item'
       autoload :Items, 'sk_calc/items'
       base.extend(ClassMethods)
