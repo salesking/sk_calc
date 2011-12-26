@@ -1,6 +1,5 @@
 #!/usr/bin/env rake
 require 'rake'
-require "bundler/gem_tasks"
 require 'rdoc/task'
 require 'rspec'
 require 'rspec/core/rake_task'
@@ -29,3 +28,16 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+#require "bundler/gem_tasks"
+########### to be dropped when we go public
+require "bundler/gem_helper"
+puts "\n== INFO: == \n'rake release' does NOT release to rubygems and just tags/build into git origin\n\n"
+module Bundler
+  class GemHelper
+    def rubygem_push(path)
+      Bundler.ui.confirm "No Push to rubygems.org yet!"      
+    end
+  end
+end
+Bundler::GemHelper.install_tasks
