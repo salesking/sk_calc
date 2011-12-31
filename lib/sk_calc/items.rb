@@ -1,4 +1,4 @@
-# Calculate totals for a multiple items .. in a document
+# Calculate totals for a multiple items eg in an invoice
 # Including class MUST respond to:
 # - price_total
 # - precision
@@ -17,11 +17,10 @@ module SK::Calc::Items
     net_total_base.round(2)
   end
 
-  # Rounded net total to document presicion. Defaults to 2 decimals
-  # Should only be used when decimal settings are set > 2, so one can see the base
-  # sum of the line items before rounded net total is taxed
+  # Unrounded net total so one can see the base sum of the line items before 
+  # rounding
   def net_total_base
-   conv_price_total.round( precision || 2 )
+    conv_price_total
   end
 
   # Rounded price_tax to 2 decimals
@@ -33,9 +32,17 @@ module SK::Calc::Items
   # tax_total
   def sum_items(items=nil)
     items ||= line_items
-    # Sum up all the total prices of the items. 
+    
+    # TODO:
+    # - apply calc strategy
+    # calc_strategy.send(calc)
+    # TOTAL => calc raw totals and sum tax + net 
+    # LINE => calc item total + tax 
+    # ITEM => calc item total + tax 
+    #
+    # Sum up all the total prices of the items.
     # .to_a to get out of activerecord collection into enum
-    self.price_total = items.to_a.sum(&:net_total_base_raw)
+    self.price_total = items.to_a.sum(&:net_total_base)
     # Sum up the tax, but use the tax_grouped to prevent rounding errors
     self.price_tax = tax_grouped(items).sum { |tax_group| tax_group[1] }
   end

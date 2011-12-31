@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rcov'
+  s.add_development_dependency 'rdoc'
   s.add_development_dependency 'rake', '>= 0.9.2'
 
 end
