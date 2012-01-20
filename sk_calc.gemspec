@@ -18,12 +18,10 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  
+
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.2}
   s.summary = %q{SalesKing Calculation Module}
-
-  s.add_runtime_dependency 'activesupport', '>= 2.3.0'
 
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rcov'
