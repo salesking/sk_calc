@@ -43,7 +43,7 @@ module SK::Calc::Item
   # ==== Returns
   # <BigDecimal>:: rounded 2 decimals
   def gross_total
-    val = net_total_base + tax_total_base
+    val = net_total_base_raw + tax_total_raw
     val.round(2)
   end
 
@@ -54,11 +54,22 @@ module SK::Calc::Item
     net_total_base.round(2)
   end
 
+  # Rounded net total useful for output in cases when the docs has a
+  # precision > 2
+  # If the default prec of 2 is used this method equals net_total
+  # In here so naming & output aligns with class document
+  # ==== Returns
+  # <BigDecimal>:: rounded to precision from document
+  def net_total_base
+    net_total_base_raw.round(precision)
+  end
+
   # Total unrounded net basis incl discount
-  # 
+  # Use this internally to do calculations! Differs from net_total_base which is
+  # used to output the rounded & formatted values
   # ==== Returns
   # <BigDecimal>::
-  def net_total_base
+  def net_total_base_raw
     (100 - discount) * total / 100
   end
 
@@ -67,23 +78,22 @@ module SK::Calc::Item
   # ==== Returns
   # <BigDecimal>::
   def total
-    conv_price_single * ( quantity || 0)    
+    conv_price_single * ( quantity || 0)
   end
 
   # ==== Returns
   # <BigDecimal>:: rounded 2 decimals
   def tax_total
-    tax_total_base.round(2)
+    tax_total_raw.round(2)
   end
-  
-  # Unrounded tax
+
   # ==== Returns
-  # <BigDecimal>:: unrounded
-  def tax_total_base
-    (net_total_base * conv_tax) / 100
+  # <BigDecimal>:: total amount of tax
+  def tax_total_raw
+    (net_total_base_raw * conv_tax) / 100
   end
-  
-  # Rounded discount amount
+
+  # The discount amount
   # ==== Returns
   # <BigDecimal>:: rounded 2 decimals
   def discount_total

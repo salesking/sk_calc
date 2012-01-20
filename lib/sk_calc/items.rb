@@ -8,7 +8,7 @@ module SK::Calc::Items
   include SK::Calc::Helper
   # Gross total always rounded to 2 decimals
   def gross_total
-    val = (net_total || 0) + conv_tax
+    val = (net_total_base || 0) + conv_tax
     val.round(2)
   end
 
@@ -27,26 +27,18 @@ module SK::Calc::Items
   def tax_total
     conv_tax.round(2)
   end
-  
+
   # Save items sums of net total and summed taxes into the price_total,
   # tax_total
   def sum_items(items=nil)
     items ||= line_items
-    
-    # TODO:
-    # - apply calc strategy
-    # calc_strategy.send(calc)
-    # TOTAL => calc raw totals and sum tax + net 
-    # LINE => calc item total + tax 
-    # ITEM => calc item total + tax 
-    #
     # Sum up all the total prices of the items.
     # .to_a to get out of activerecord collection into enum
-    self.price_total = items.to_a.sum(&:net_total_base)
+    self.price_total = items.to_a.sum(&:net_total_base_raw)
     # Sum up the tax, but use the tax_grouped to prevent rounding errors
     self.price_tax = tax_grouped(items).sum { |tax_group| tax_group[1] }
   end
-  
+
   # Sums up the tax price of the line items, grouped by tax
   # Results a sorted hash (=array) like [ [ 7, 3.50 ], [ 19, 47.50 ] ]
   #==Example
@@ -59,8 +51,8 @@ module SK::Calc::Items
   # [1] =>
   #       [0] => 19   # the tax percentage
   #       [1] => 57   # tax sum of all line item with this tax(items sum = 300)
-  #       
-  #       
+  #
+  #
   # Sum up the price_total and calculate the tax -
   # don't sum price_tax because of rounding errors!
   #
