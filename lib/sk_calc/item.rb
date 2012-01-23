@@ -39,38 +39,53 @@ module SK::Calc::Item
     @rmd = mode
   end
 
-  # Total gross price incl. discount
-  # ==== Returns
-  # <BigDecimal>:: rounded 2 decimals
-  def gross_total
-    val = net_total_base_raw + tax_total_raw
-    val.round(2)
-  end
-
-  # Total net price(2 decimals) incl. discount
-  # ==== Returns
-  # <BigDecimal>:: rounded 2 decimals
-  def net_total
-    net_total_base.round(2)
-  end
-
-  # Rounded net total useful for output in cases when the docs has a
-  # precision > 2
-  # If the default prec of 2 is used this method equals net_total
-  # In here so naming & output aligns with class document
-  # ==== Returns
-  # <BigDecimal>:: rounded to precision from document
-  def net_total_base
-    net_total_base_raw.round((precision rescue 2))
-  end
+  ############################################
+  ### BASE VALUES
+  ############################################
+  ### These values are used for calculations.
+  ### Use values under DISPLAY VALUES section
+  ### for displaying values to the end user!
 
   # Total unrounded net basis incl discount
   # Use this internally to do calculations! Differs from net_total_base which is
   # used to output the rounded & formatted values
   # ==== Returns
   # <BigDecimal>::
-  def net_total_base_raw
+  def net_total_base
     (100 - discount) * total / 100
+  end
+
+  # ==== Returns
+  # <BigDecimal>:: total amount of tax
+  def tax_total_base
+    (net_total_base * conv_tax) / 100
+  end
+
+  # Single net price with discount applied
+  # DO NOT use this method to calculate(eg. totals for a document) use net_total
+  # or gross_total instead
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def net_single_base
+    conv_price_single * ( 1 - (discount / 100 ) )
+  end
+
+  def gross_single_base
+    net_single_base * ( 1 + conv_tax / 100)
+  end
+
+  # Total gross price incl. discount
+  # ==== Returns
+  # <BigDecimal>:: total gross base
+  def gross_total_base
+    net_total_base + tax_total_base
+  end
+
+  # The discount amount unrounded
+  # ==== Returns
+  # <BigDecimal>:: rounded
+  def discount_total_base
+    total * (discount / 100)
   end
 
   # Unrounded item total price * quantity, excl discount
@@ -81,16 +96,32 @@ module SK::Calc::Item
     conv_price_single * ( quantity || 0)
   end
 
+  ############################################
+  ### DISPLAY VALUES
+  ############################################
+  ### These values are used only to display to a user.
+  ### Use values under BASE VALUES section
+  ### for calculations!
+
+  # Total gross price incl. discount
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def gross_total
+    gross_total_base.round(2)
+  end
+
+  # Total net price(2 decimals) incl. discount
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def net_total
+    net_total_base.round(2)
+  end
+
+
   # ==== Returns
   # <BigDecimal>:: rounded 2 decimals
   def tax_total
-    tax_total_raw.round(2)
-  end
-
-  # ==== Returns
-  # <BigDecimal>:: total amount of tax
-  def tax_total_raw
-    (net_total_base_raw * conv_tax) / 100
+    tax_total_base.round(2)
   end
 
   # The discount amount
@@ -100,21 +131,6 @@ module SK::Calc::Item
     discount_total_base.round(2)
   end
 
-  # The discount amount unrounded
-  # ==== Returns
-  # <BigDecimal>:: rounded
-  def discount_total_base
-    total * (discount / 100)
-  end
-
-  # Single net price with discount applied
-  # DO NOT use this method to calculate(eg. totals for a document) use net_total
-  # or gross_total instead
-  # ==== Returns
-  # <BigDecimal>:: rounded 2 decimals
-  def net_single_raw
-    conv_price_single * ( 1 - (discount / 100 ) )
-  end
 
   # Single net price with discount applied rounded 2.
   # DO NOT use this method to calculate(eg. totals for a document) use net_total
@@ -122,7 +138,7 @@ module SK::Calc::Item
   # ==== Returns
   # <BigDecimal>:: rounded 2 decimals
   def net_single
-    net_single_raw.round(2)
+    net_single_base.round(2)
   end
 
   # Single gross price rounded 2.
@@ -131,8 +147,7 @@ module SK::Calc::Item
   # ==== Returns
   # <BigDecimal>:: rounded 2 decimals
   def gross_single
-    val = net_single_raw * ( 1 + conv_tax / 100)
-    val.round(2)
+    gross_single_base.round(2)
   end
 
 

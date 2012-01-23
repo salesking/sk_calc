@@ -34,7 +34,7 @@ module SK::Calc::Items
     items ||= line_items
     # Sum up all the total prices of the items.
     # .to_a to get out of activerecord collection into enum
-    self.price_total = items.to_a.sum(&:net_total_base_raw)
+    self.price_total = items.to_a.sum(&:net_total_base)
     # Sum up the tax, but use the tax_grouped to prevent rounding errors
     self.price_tax = tax_grouped(items).sum { |tax_group| tax_group[1] }
   end
@@ -60,7 +60,7 @@ module SK::Calc::Items
     items ||= line_items
     result = {}
     items.group_by(&:tax).each do |tax, item_group|
-      net_total_sum = item_group.to_a.sum(&:net_total_base_raw)
+      net_total_sum = item_group.to_a.sum(&:net_total_base)
       result[tax] = (net_total_sum * tax / 100.0) unless tax.zero?
     end
     result.sort

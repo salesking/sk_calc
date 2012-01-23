@@ -42,8 +42,8 @@ describe SK::Calc do
       @i.net_total_base.should == 10.00
     end
 
-    it "should calc tax_total_raw" do
-      @i.tax_total_raw.should == 1.90
+    it "should calc tax_total" do
+      @i.tax_total.should == 1.90
     end
   end
 
@@ -69,15 +69,15 @@ describe SK::Calc do
       @i.gross_total.should == 15.0
     end
 
-    it "should calc net_total_base_raw" do
-      @i.net_total_base_raw.should == 12.605
-    end
     it "should calc net_total_base" do
-      @i.net_total_base.should == 12.61
+      @i.net_total_base.should == 12.605
+    end
+    it "should calc net_total" do
+      @i.net_total.should == 12.61
     end
 
-    it "should calc tax_total_raw" do
-      @i.tax_total_raw.should == 2.39495
+    it "should calc tax_total_base" do
+      @i.tax_total_base.should == 2.39495
     end
 
     it "should calc tax_total" do
