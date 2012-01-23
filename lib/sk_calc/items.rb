@@ -17,7 +17,7 @@ module SK::Calc::Items
     net_total_base.round(2)
   end
 
-  # Unrounded net total so one can see the base sum of the line items before 
+  # Unrounded net total so one can see the base sum of the line items before
   # rounding
   def net_total_base
     conv_price_total
@@ -60,7 +60,7 @@ module SK::Calc::Items
     items ||= line_items
     result = {}
     items.group_by(&:tax).each do |tax, item_group|
-      net_total_sum = item_group.to_a.sum(&:net_total)
+      net_total_sum = item_group.to_a.sum(&:net_total_base_raw)
       result[tax] = (net_total_sum * tax / 100.0) unless tax.zero?
     end
     result.sort
