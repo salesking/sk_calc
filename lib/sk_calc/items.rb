@@ -6,11 +6,6 @@
 # - line_items
 module SK::Calc::Items
   include SK::Calc::Helper
-  # Gross total always rounded to 2 decimals
-  def gross_total
-    val = (net_total_base || 0) + conv_tax
-    val.round(2)
-  end
 
   # Unrounded net total so one can see the base sum of the line items before
   # rounding
@@ -18,9 +13,19 @@ module SK::Calc::Items
     conv_price_total
   end
 
+  # Gross total
+  def gross_total_base
+    (net_total_base || 0) + conv_tax
+  end
+
   # Net total rounded to 2 decimals, the taxation base
   def net_total
     net_total_base.round(2)
+  end
+
+  # Gross total rounded to 2 decimals
+  def gross_total
+    gross_total_base.round(2)
   end
 
   # Rounded price_tax to 2 decimals
