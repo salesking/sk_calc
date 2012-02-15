@@ -80,6 +80,10 @@ describe SK::Calc do
       @i.tax_total_base.should == 2.39495
     end
 
+    it "should calc tax_total_4" do
+      @i.tax_total_4.should == 2.395
+    end
+
     it "should calc tax_total" do
       @i.tax_total.should == 2.39
     end

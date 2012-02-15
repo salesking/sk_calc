@@ -150,6 +150,59 @@ module SK::Calc::Item
     gross_single_base.round(2)
   end
 
+  ############################################
+  ### DISPLAY VALUES 4
+  ############################################
+  ### These values are used only to display to a user.
+  ### Use values under BASE VALUES section
+  ### for calculations!
+
+  # Total gross price incl. discount
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def gross_total_4
+    gross_total_base.round(4)
+  end
+
+  # Total net price(2 decimals) incl. discount
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def net_total_4
+    net_total_base.round(4)
+  end
+
+
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def tax_total_4
+    tax_total_base.round(4)
+  end
+
+  # The discount amount
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def discount_total_4
+    discount_total_base.round(4)
+  end
+
+
+  # Single net price with discount applied rounded 2.
+  # DO NOT use this method to calculate(eg. totals for a document) use net_total
+  # or gross_total instead
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def net_single_4
+    net_single_base.round(4)
+  end
+
+  # Single gross price rounded 2.
+  # DONT use this method to calculate(eg. totals for a document) use net_total
+  # or gross_total instead
+  # ==== Returns
+  # <BigDecimal>:: rounded 2 decimals
+  def gross_single_4
+    gross_single_base.round(4)
+  end
 
   private
 
