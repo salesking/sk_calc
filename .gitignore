@@ -1,9 +1,6 @@
 .rvmrc
-nbproject/*
 coverage/*
 rdoc/*
 pkg/*
-ci/Gemfile.lock
-ci/vendor
-ci/.bundle
+Gemfile.lock
 spec/settings.yml

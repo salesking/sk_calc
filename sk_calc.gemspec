@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.summary = %q{SalesKing Calculation Module}
 
   s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rcov'
+  s.add_development_dependency 'simplecov'
   s.add_development_dependency 'rdoc'
   s.add_development_dependency 'activesupport'
   s.add_development_dependency 'rake', '>= 0.9.2'

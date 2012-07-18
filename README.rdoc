@@ -1,4 +1,5 @@
 = SalesKing Calculation
+{<img src="https://secure.travis-ci.org/salesking/sk_calc.png?branch=master" alt="Build Status" />}[http://travis-ci.org/salesking/sk_calc]
 
 Why?
 
@@ -6,10 +7,10 @@ Why?
 2. Ever stumbled upon rounding problems, when calculating totals?
 3. Wouldn't it be nice to change a calculation strategy?
 
-We decided to open-source this part, so everybody can transparently see 
-how we calculate item and document totals. 
+We decided to open-source this part, so everybody can transparently see
+how we calculate item and document totals.
 
-You can take advantage of this lib for example when using our API and 
+You can take advantage of this lib for example when using our API and
 mixing it into your local classes.
 
 
@@ -18,12 +19,9 @@ mixing it into your local classes.
   gem install sk_calc
 
 
-== Classes
-
-
 == Usage
 
-Comming ..
+read spec/sk_calc/*.rb to see examples
 
   require 'sk_calc'
 
