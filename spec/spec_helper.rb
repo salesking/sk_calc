@@ -8,6 +8,6 @@ SimpleCov.start do
   root File.join(File.dirname(__FILE__), '..')
   add_filter "/bin/"
   add_filter "/spec/"
-end.travis.yml
+end
 
 require "#{File.dirname(__FILE__)}/../lib/sk_calc"
