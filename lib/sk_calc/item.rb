@@ -51,7 +51,7 @@ module SK::Calc::Item
   # used to output the rounded & formatted values
   # @return [BigDecimal]
   def net_total_base
-    (100 - discount) * total / 100
+    (100 - (discount||0)) * total / 100
   end
 
   # @return [BigDecimal] total amount of tax
@@ -64,7 +64,7 @@ module SK::Calc::Item
   # or gross_total instead
   # @return [BigDecimal] rounded 2 decimals
   def net_single_base
-    conv_price_single * ( 1 - (discount / 100 ) )
+    conv_price_single * ( 1 - ((discount||0) / 100 ) )
   end
 
   def gross_single_base
@@ -80,7 +80,7 @@ module SK::Calc::Item
   # The discount amount unrounded
   # @return [BigDecimal] rounded
   def discount_total_base
-    total * (discount / 100)
+    total * ((discount||0) / 100)
   end
 
   # Unrounded item total price * quantity, excl discount
@@ -109,7 +109,6 @@ module SK::Calc::Item
     net_total_base.round(2)
   end
 
-
   # @return [BigDecimal] rounded 2 decimals
   def tax_total
     tax_total_base.round(2)
@@ -120,7 +119,6 @@ module SK::Calc::Item
   def discount_total
     discount_total_base.round(2)
   end
-
 
   # Single net price with discount applied rounded 2.
   # DO NOT use this method to calculate(eg. totals for a document) use net_total

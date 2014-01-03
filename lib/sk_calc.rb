@@ -1,5 +1,5 @@
 require 'bigdecimal'
-require "active_support/core_ext/enumerable"
+require 'active_support/core_ext/enumerable'
 module SK
   # calculation module
   # == Usage

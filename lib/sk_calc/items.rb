@@ -1,7 +1,6 @@
 # Calculate totals for a multiple items eg in an invoice
 # Including class MUST respond to:
 # - price_total
-# - precision
 # - price_tax
 # - line_items
 module SK::Calc::Items
@@ -16,7 +15,7 @@ module SK::Calc::Items
   # Gross total unrounded
   # @return [BigDecimal]
   def gross_total_base
-    (net_total_base || 0) + conv_tax
+    (net_total_base || 0) + tax_total_base
   end
 
   # Net total rounded to 2 decimals
@@ -28,6 +27,12 @@ module SK::Calc::Items
   # @return [BigDecimal]
   def gross_total
     gross_total_base.round(2)
+  end
+
+  # Tax total rounded price_tax to 2 decimals
+  # @return [BigDecimal]
+  def tax_total_base
+    conv_tax
   end
 
   # Tax total rounded price_tax to 2 decimals
