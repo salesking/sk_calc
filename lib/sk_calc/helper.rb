@@ -15,7 +15,7 @@ module SK::Calc::Helper
   # == Return
   # <BigDecimal>
   def conv_tax
-    to_bd(tax || 0)
+    to_bd( (self.respond_to?(:tax) && tax) || 0)
   end
 
   # Cast a val to BigDecimal

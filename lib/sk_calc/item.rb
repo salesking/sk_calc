@@ -51,7 +51,7 @@ module SK::Calc::Item
   # used to output the rounded & formatted values
   # @return [BigDecimal]
   def net_total_base
-    (100 - (discount||0)) * total / 100
+    (100 - conv_discount) * total / 100
   end
 
   # @return [BigDecimal] total amount of tax
@@ -64,7 +64,7 @@ module SK::Calc::Item
   # or gross_total instead
   # @return [BigDecimal] rounded 2 decimals
   def net_single_base
-    conv_price_single * ( 1 - ((discount||0) / 100 ) )
+    conv_price_single * ( 1 - (conv_discount / 100 ) )
   end
 
   def gross_single_base
@@ -80,7 +80,7 @@ module SK::Calc::Item
   # The discount amount unrounded
   # @return [BigDecimal] rounded
   def discount_total_base
-    total * ((discount||0) / 100)
+    total * (conv_discount / 100)
   end
 
   # Unrounded item total price * quantity, excl discount
@@ -190,6 +190,13 @@ module SK::Calc::Item
   # @return [BigDecimal]
   def conv_price_single
     to_bd(price_single || 0)
+  end
+
+  # Init discount with 0 gracefully ignores if it is not defined.
+  # If nil and cast to BigDecimal
+  # @return [BigDecimal]
+  def conv_discount
+    to_bd( (self.respond_to?(:discount) && discount) || 0)
   end
 
 end

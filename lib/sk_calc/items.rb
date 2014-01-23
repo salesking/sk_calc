@@ -1,12 +1,12 @@
 # Calculate totals for a multiple items eg in an invoice
 # Including class MUST respond to:
-# - price_total
-# - price_tax
+# - price_total: the sum of all items net totals, you must call #sum_items yourself to fill this and price tax
+# - price_tax: the tax total for all items
 # - line_items
 module SK::Calc::Items
   include SK::Calc::Helper
 
-  # Unrounded net total the taxation base
+  # Unrounded net total which is the sum of all items net_total, the taxation base
   # @return [BigDecimal]
   def net_total_base
     conv_price_total
@@ -94,7 +94,7 @@ module SK::Calc::Items
 
   private
 
-  # Init price single with 0 if nil and cast to BigDecimal
+  # Init total with 0 if nil and cast to BigDecimal
   # @return [BigDecimal]
   def conv_price_total
     to_bd(price_total || 0)

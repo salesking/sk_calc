@@ -6,8 +6,24 @@ class LineItem
   calculates :item
 end
 
+class ItemWithoutFields
+  include SK::Calc
+  attr_accessor :price_single, :quantity
+  calculates :item
+end
+
 describe SK::Calc do
 
+ describe 'optional fields' do
+   it 'should have conv_tax' do
+     i = ItemWithoutFields.new
+     i.conv_tax.should == 0
+   end
+   it 'should have conv_discount' do
+     i = ItemWithoutFields.new
+     i.conv_discount.should == 0
+   end
+ end
  describe 'item calculations' do
 
     before :each do
