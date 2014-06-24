@@ -97,12 +97,12 @@ module SK::Calc::Items
   # Init total with 0 if nil and cast to BigDecimal
   # @return [BigDecimal]
   def conv_price_total
-    to_bd(price_total || 0)
+    (price_total || 0).to_r
   end
 
   # Init tax with 0 if nil and cast to BigDecimal .. same in helper
   # @return [BigDecimal]
   def conv_tax
-    to_bd(price_tax || 0)
+    (price_tax || 0).to_r
   end
 end

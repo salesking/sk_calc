@@ -1,5 +1,7 @@
 # Helper methods to
-# - convert empty or integer values into BigDecimals
+# - convert empty or integer values into Rationals
+require 'rational'
+
 module SK::Calc::Helper
 
   private
@@ -8,21 +10,14 @@ module SK::Calc::Helper
   # == Return
   # <BigDecimal>
   def conv_price_single
-    to_bd(price_single || 0)
+    (price_single || 0).to_r
   end
 
   # Init tax with 0 if nil and cast to BigDecimal
   # == Return
   # <BigDecimal>
   def conv_tax
-    to_bd( (self.respond_to?(:tax) && tax) || 0)
-  end
-
-  # Cast a val to BigDecimal
-  # == Return
-  # <BigDecimal>
-  def to_bd(val)
-    val.is_a?(BigDecimal) ? val : BigDecimal.new("#{val}")
+    ((self.respond_to?(:tax) && tax) || 0).to_r
   end
 
 end

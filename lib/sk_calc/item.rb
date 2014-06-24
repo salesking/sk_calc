@@ -189,14 +189,14 @@ module SK::Calc::Item
   # Init price single with 0 if nil and cast to BigDecimal
   # @return [BigDecimal]
   def conv_price_single
-    to_bd(price_single || 0)
+    (price_single || 0).to_r
   end
 
   # Init discount with 0 gracefully ignores if it is not defined.
   # If nil and cast to BigDecimal
   # @return [BigDecimal]
   def conv_discount
-    to_bd( (self.respond_to?(:discount) && discount) || 0)
+    ((self.respond_to?(:discount) && discount) || 0).to_r
   end
 
 end
