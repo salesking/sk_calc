@@ -30,8 +30,6 @@
 #   discount_total
 #
 module SK::Calc::Item
-  include SK::Calc::Helper
-
   def self.round_mode
     @rmd || BigDecimal::ROUND_HALF_UP
   end
@@ -136,60 +134,13 @@ module SK::Calc::Item
     gross_single_base.round(2)
   end
 
-  ############################################
-  ### DISPLAY VALUES 4
-  ############################################
-  ### These values are used only to display to a user.
-  ### Use values under BASE VALUES section
-  ### for calculations!
-
-  # Total gross price incl. discount
-  # @return [BigDecimal] rounded 2 decimals
-  def gross_total_4
-    gross_total_base.round(4)
-  end
-
-  # Total net price
-  # @return [BigDecimal] rounded 4 decimals
-  def net_total_4
-    net_total_base.round(4)
-  end
-
-
-  # @return [BigDecimal] rounded 4 decimals
-  def tax_total_4
-    tax_total_base.round(4)
-  end
-
-  # The discount amount
-  # @return [BigDecimal] rounded 4 decimals
-  def discount_total_4
-    discount_total_base.round(4)
-  end
-
-
-  # Single net price with discount applied rounded 2.
-  # DO NOT use this method to calculate(eg. totals for a document) use net_total
-  # or gross_total instead
-  # @return [BigDecimal] rounded 4 decimals
-  def net_single_4
-    net_single_base.round(4)
-  end
-
-  # Single gross price rounded 2.
-  # DONT use this method to calculate(eg. totals for a document) use net_total
-  # or gross_total instead
-  # @return [BigDecimal] rounded 4 decimals
-  def gross_single_4
-    gross_single_base.round(4)
-  end
 
   private
 
   # Init price single with 0 if nil and cast to BigDecimal
   # @return [BigDecimal]
   def conv_price_single
-    (price_single || 0).to_r
+    (price_single || 0).to_r.round(SK::Calc.precision)
   end
 
   # Init discount with 0 gracefully ignores if it is not defined.
@@ -197,6 +148,13 @@ module SK::Calc::Item
   # @return [BigDecimal]
   def conv_discount
     ((self.respond_to?(:discount) && discount) || 0).to_r
+  end
+
+    # Init tax with 0 if nil and cast to BigDecimal
+  # == Return
+  # <BigDecimal>
+  def conv_tax
+    ((self.respond_to?(:tax) && tax) || 0).to_r
   end
 
 end

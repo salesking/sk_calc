@@ -4,16 +4,14 @@
 # - price_tax: the tax total for all items
 # - line_items
 module SK::Calc::Items
-  include SK::Calc::Helper
-
   # Unrounded net total which is the sum of all items net_total, the taxation base
-  # @return [BigDecimal]
+  # @return [Rational]
   def net_total_base
     conv_price_total
   end
 
   # Gross total unrounded
-  # @return [BigDecimal]
+  # @return [Rational]
   def gross_total_base
     (net_total_base || 0) + tax_total_base
   end
@@ -24,33 +22,21 @@ module SK::Calc::Items
   end
 
   # Gross total rounded to 2 decimals
-  # @return [BigDecimal]
+  # @return [Rational]
   def gross_total
     gross_total_base.round(2)
   end
 
   # Tax total rounded price_tax to 2 decimals
-  # @return [BigDecimal]
+  # @return [Rational]
   def tax_total_base
     conv_tax
   end
 
   # Tax total rounded price_tax to 2 decimals
-  # @return [BigDecimal]
+  # @return [Rational]
   def tax_total
     conv_tax.round(2)
-  end
-
-  # Net total rounded to 4 decimals
-  # @return [BigDecimal]
-  def net_total_4
-    net_total_base.round(4)
-  end
-
-  # Rounded price_tax to 4 decimals
-  # @return [BigDecimal]
-  def tax_total_4
-    conv_tax.round(4)
   end
 
   # Save items sums of net total and summed taxes into the price_total,
@@ -87,21 +73,21 @@ module SK::Calc::Items
     result = {}
     items.group_by(&:tax).each do |tax, item_group|
       net_total_sum = item_group.to_a.sum(&:net_total_base)
-      result[tax] = (net_total_sum * tax / 100.0) if tax && !tax.zero?
+      result[tax] = (net_total_sum * tax / 100.0).round(SK::Calc.precision) if tax && !tax.zero?
     end
     result.sort
   end
 
   private
 
-  # Init total with 0 if nil and cast to BigDecimal
-  # @return [BigDecimal]
+  # Init total with 0 if nil and cast to Rational
+  # @return [Rational]
   def conv_price_total
-    (price_total || 0).to_r
+    (price_total || 0).to_r.round(SK::Calc.precision)
   end
 
-  # Init tax with 0 if nil and cast to BigDecimal .. same in helper
-  # @return [BigDecimal]
+  # Init tax with 0 if nil and cast to Rational
+  # @return [Rational]
   def conv_tax
     (price_tax || 0).to_r
   end

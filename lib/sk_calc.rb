@@ -13,12 +13,20 @@ module SK
   #   end
   module Calc
 
+    # Global calculation precision setting. If you save values to db with 8
+    # decimal places you should use a precision of 8
+    def self.precision
+      @precision || 6
+    end
+
+    def self.precision=(val)
+      @precision = val
+    end
+
     def self.included(base)
-      autoload :Helper, 'sk_calc/helper'
       autoload :Item, 'sk_calc/item'
       autoload :Items, 'sk_calc/items'
       base.extend(ClassMethods)
-  #    base.send(:include, InstanceMethods)
     end
 
     module ClassMethods
@@ -26,10 +34,11 @@ module SK
       def calculates(kind, opts={})
         include Item if kind == :item
         include Items if kind == :items
+        if opts[:precision]
+          SK::Calc.precision = opts[:precision]
+        end
       end
     end
-
-    module InstanceMethods; end
 
   end
 end
