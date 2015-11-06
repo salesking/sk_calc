@@ -14,16 +14,28 @@ end
 
 describe SK::Calc do
 
- describe 'optional fields' do
-   it 'should have conv_tax' do
+ describe 'private convert methods' do
+   it 'conv_tax' do
      i = ItemWithoutFields.new
-     i.conv_tax.should == 0
+     i.send(:conv_tax).should == 0
    end
-   it 'should have conv_discount' do
+   it 'conv_price_single' do
      i = ItemWithoutFields.new
-     i.conv_discount.should == 0
+     i.send(:conv_price_single).should == 0
+   end
+
+   it 'rounds to max 6 conv_price_single' do
+     i = ItemWithoutFields.new
+     i.price_single = 1.12345678
+     i.send(:conv_price_single).to_f.should == 1.123457
+   end
+
+   it 'conv_discount' do
+     i = ItemWithoutFields.new
+     i.send(:conv_discount).should == 0
    end
  end
+
  describe 'item calculations' do
 
     before :each do
@@ -94,10 +106,6 @@ describe SK::Calc do
 
     it "should calc tax_total_base" do
       @i.tax_total_base.should == 2.39495
-    end
-
-    it "should calc tax_total_4" do
-      @i.tax_total_4.should == 2.395
     end
 
     it "should calc tax_total" do
