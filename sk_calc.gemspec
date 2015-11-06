@@ -12,9 +12,7 @@ Gem::Specification.new do |s|
   s.description = %q{Calculate document and line item totals. This moule is used inside SalesKIng and outsourced for transparency and reusability.}
   s.email = %q{gl@salesking.eu}
   s.homepage = %q{http://github.com/salesking/sk_calc}
-  s.extra_rdoc_files = [
-    "README.rdoc"
-  ]
+
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -25,7 +23,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'rdoc'
   s.add_development_dependency 'activesupport'
   s.add_development_dependency 'rake', '>= 0.9.2'
 

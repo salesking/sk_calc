@@ -1,5 +1,5 @@
-= SalesKing Calculation
-{<img src="https://secure.travis-ci.org/salesking/sk_calc.png?branch=master" alt="Build Status" />}[http://travis-ci.org/salesking/sk_calc]
+# SalesKing Calculation
+[![Build Status](https://travis-ci.org/salesking/sk_calc.svg?branch=master)](https://travis-ci.org/salesking/sk_calc)
 
 Why?
 
@@ -24,7 +24,14 @@ mixing it into your local classes.
 read spec/sk_calc/*.rb to see examples
 
   require 'sk_calc'
+  class LineItem
+    calculates :item
+  end
+  
+  class Invoice
+    calculates :items
+   end
 
 == Tests
 
-Copyright (c) 2011 Georg Leciejewski, released under the MIT license
+Copyright (c) 2011-2016 Georg Leciejewski, released under the MIT license

@@ -30,12 +30,6 @@
 #   discount_total
 #
 module SK::Calc::Item
-  def self.round_mode
-    @rmd || BigDecimal::ROUND_HALF_UP
-  end
-  def self.round_mode=(mode)
-    @rmd = mode
-  end
 
   ############################################
   ### BASE VALUES
@@ -47,12 +41,12 @@ module SK::Calc::Item
   # Total unrounded net basis incl discount
   # Use this internally to do calculations! Differs from net_total_base which is
   # used to output the rounded & formatted values
-  # @return [BigDecimal]
+  # @return [Rational]
   def net_total_base
     (100 - conv_discount) * total / 100
   end
 
-  # @return [BigDecimal] total amount of tax
+  # @return [Rational] total amount of tax
   def tax_total_base
     (net_total_base * conv_tax) / 100
   end
@@ -60,7 +54,7 @@ module SK::Calc::Item
   # Single net price with discount applied
   # DO NOT use this method to calculate(eg. totals for a document) use net_total
   # or gross_total instead
-  # @return [BigDecimal] rounded 2 decimals
+  # @return [Rational] rounded 2 decimals
   def net_single_base
     conv_price_single * ( 1 - (conv_discount / 100 ) )
   end
@@ -70,20 +64,20 @@ module SK::Calc::Item
   end
 
   # Total gross price incl. discount
-  # @return [BigDecimal] total gross base
+  # @return [Rational] total gross base
   def gross_total_base
     net_total_base + tax_total_base
   end
 
   # The discount amount unrounded
-  # @return [BigDecimal] rounded
+  # @return [Rational] rounded
   def discount_total_base
     total * (conv_discount / 100)
   end
 
   # Unrounded item total price * quantity, excl discount
   # Use it to do calculations!
-  # @return [BigDecimal]
+  # @return [Rational]
   def total
     conv_price_single * ( quantity || 0)
   end
@@ -96,24 +90,24 @@ module SK::Calc::Item
   ### for calculations!
 
   # Total gross price incl. discount
-  # @return [BigDecimal] rounded 2 decimals
+  # @return [Rational] rounded 2 decimals
   def gross_total
     gross_total_base.round(2)
   end
 
   # Total net price(2 decimals) incl. discount
-  # @return [BigDecimal] rounded 2 decimals
+  # @return [Rational] rounded 2 decimals
   def net_total
     net_total_base.round(2)
   end
 
-  # @return [BigDecimal] rounded 2 decimals
+  # @return [Rational] rounded 2 decimals
   def tax_total
     tax_total_base.round(2)
   end
 
   # The discount amount
-  # @return [BigDecimal] rounded 2 decimals
+  # @return [Rational] rounded 2 decimals
   def discount_total
     discount_total_base.round(2)
   end
@@ -121,7 +115,7 @@ module SK::Calc::Item
   # Single net price with discount applied rounded 2.
   # DO NOT use this method to calculate(eg. totals for a document) use net_total
   # or gross_total instead
-  # @return [BigDecimal] rounded 2 decimals
+  # @return [Rational] rounded 2 decimals
   def net_single
     net_single_base.round(2)
   end
@@ -129,7 +123,7 @@ module SK::Calc::Item
   # Single gross price rounded 2.
   # DONT use this method to calculate(eg. totals for a document) use net_total
   # or gross_total instead
-  # @return [BigDecimal] rounded 2 decimals
+  # @return [Rational] rounded 2 decimals
   def gross_single
     gross_single_base.round(2)
   end
@@ -137,22 +131,20 @@ module SK::Calc::Item
 
   private
 
-  # Init price single with 0 if nil and cast to BigDecimal
-  # @return [BigDecimal]
+  # Init price single with 0 if nil
+  # @return [Rational]
   def conv_price_single
     (price_single || 0).to_r.round(SK::Calc.precision)
   end
 
   # Init discount with 0 gracefully ignores if it is not defined.
-  # If nil and cast to BigDecimal
-  # @return [BigDecimal]
+  # @return [Rational]
   def conv_discount
     ((self.respond_to?(:discount) && discount) || 0).to_r
   end
 
-    # Init tax with 0 if nil and cast to BigDecimal
-  # == Return
-  # <BigDecimal>
+  # Init tax with 0 if nil
+  # @return [Rational]
   def conv_tax
     ((self.respond_to?(:tax) && tax) || 0).to_r
   end
