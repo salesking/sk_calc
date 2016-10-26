@@ -16,6 +16,8 @@ mixing it into your local classes.
 
 == Install
 
+Ruby 2.2 tested, 1.9 should work to
+
   gem install sk_calc
 
 
