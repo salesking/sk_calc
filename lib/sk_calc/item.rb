@@ -79,7 +79,7 @@ module SK::Calc::Item
   # Use it to do calculations!
   # @return [Rational]
   def total
-    conv_price_single * ( quantity || 0)
+    conv_price_single * conv_quantity
   end
 
   ############################################
@@ -147,6 +147,10 @@ module SK::Calc::Item
   # @return [Rational]
   def conv_tax
     ((self.respond_to?(:tax) && tax) || 0).to_r
+  end
+
+  def conv_quantity
+    (quantity || 0).to_r
   end
 
 end
