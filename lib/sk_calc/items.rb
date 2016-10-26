@@ -73,7 +73,7 @@ module SK::Calc::Items
     result = {}
     items.group_by(&:tax).each do |tax, item_group|
       net_total_sum = item_group.to_a.sum(&:net_total_base)
-      result[tax] = (net_total_sum * tax / 100.0).round(SK::Calc.precision) if tax && !tax.zero?
+      result[tax] = (net_total_sum * tax.to_r / 100.0).round(SK::Calc.precision) if tax && !tax.zero?
     end
     result.sort
   end

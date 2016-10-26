@@ -20,27 +20,33 @@ describe SK::Calc, 'items calculations' do
     @i.discount = 0
     @i.quantity = 1
     @i.tax = 19.0
-    
+
     @doc = Doc.new
     @doc.line_items = [@i]
-    
-    
   end
 
-  it "should calc net_total" do
+  it "calc net_total" do
     @doc.sum_items
     @doc.net_total.should == 10.0
   end
 
-  it "should calc gross_total" do
+  it "calc gross_total" do
     @doc.sum_items
     @doc.gross_total.should == 11.90
   end
 
-  it "should sum totals" do
+  it "sums totals" do
     @doc.sum_items
     @doc.price_total.should == 10.0
     @doc.price_tax.should == 1.90
   end
 
+  it "sums items with tax as rational" do
+    @i.price_single = 7142.857143
+    @i.tax = BigDecimal('19.0')
+    @doc.sum_items
+    @doc.price_total.should == 7142.857143
+    @doc.price_tax.should == 1357.142857
+    @doc.gross_total.should == 8500.00
+  end
 end
