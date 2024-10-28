@@ -36,4 +36,4 @@ read spec/sk_calc/*.rb to see examples
 
 == Tests
 
-Copyright (c) 2011-2016 Georg Leciejewski, released under the MIT license
+Copyright (c) 2011-2024 Georg Leciejewski, released under the MIT license

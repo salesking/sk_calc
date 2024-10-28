@@ -27,26 +27,35 @@ describe SK::Calc, 'items calculations' do
 
   it "calc net_total" do
     @doc.sum_items
-    @doc.net_total.should == 10.0
+    expect(@doc.net_total).to eq 10.0
   end
 
   it "calc gross_total" do
     @doc.sum_items
-    @doc.gross_total.should == 11.90
+    expect(@doc.gross_total).to eq 11.90
   end
 
   it "sums totals" do
     @doc.sum_items
-    @doc.price_total.should == 10.0
-    @doc.price_tax.should == 1.90
+    expect(@doc.price_total).to eq 10.0
+    expect(@doc.price_tax).to eq 1.90
   end
 
   it "sums items with tax as rational" do
     @i.price_single = 7142.857143
     @i.tax = BigDecimal('19.0')
     @doc.sum_items
-    @doc.price_total.should == 7142.857143
-    @doc.price_tax.should == 1357.142857
-    @doc.gross_total.should == 8500.00
+    expect(@doc.price_total).to eq 7142.857143
+    expect(@doc.price_tax).to eq 1357.142857
+    expect(@doc.gross_total).to eq 8500.00
   end
+
+  it "tax_grouped" do
+    @i.price_single = 7142.857143
+    @i.tax = BigDecimal('19.0')
+    res = @doc.tax_grouped
+    expect(res).to eq [[19.0, 1357.142857]]
+  end
+
+
 end
