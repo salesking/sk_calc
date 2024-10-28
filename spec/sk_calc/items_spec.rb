@@ -58,4 +58,19 @@ describe SK::Calc, 'items calculations' do
   end
 
 
+  it "tax_grouped_details" do
+    b = LineItem.new
+    b.tax=7.0
+    b.quantity=10
+    b.price_single=10
+    b.discount=0
+
+    @doc.line_items << b
+
+    res = @doc.tax_grouped_details
+    expect(res[0]).to eq( {net_total: 100.0, tax: 7.0, tax_total: 7.0, gross_total:107.0})
+    expect(res[1]).to eq( {net_total:10, tax:19.0, tax_total:1.9, gross_total:11.9})
+  end
+
+
 end

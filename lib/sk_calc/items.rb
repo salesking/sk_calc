@@ -67,7 +67,7 @@ module SK::Calc::Items
   #       [1] => 57   #(items sum = 300)
   #
   #
-  # @return [Hash]
+  # @return [Array<Array>]
   def tax_grouped(items=nil)
     items ||= line_items
     result = {}
@@ -76,6 +76,27 @@ module SK::Calc::Items
       result[tax] = (net_total_sum * tax.to_r / 100.0).round(SK::Calc.precision) if tax && !tax.zero?
     end
     result.sort
+  end
+
+  # @return [Array<Hash<Symbol,Mixed>>]
+  def tax_grouped_details(items=nil)
+    items ||= line_items
+    result = []
+    items.group_by(&:tax).each do |tax, item_group|
+      net_total_sum = item_group.to_a.sum(&:net_total_base)
+      tax_total = if tax && !tax.zero?
+                    (net_total_sum * tax.to_r / 100.0).round(SK::Calc.precision)
+                  else
+                    0.0
+                  end
+      result << {
+        tax: tax,
+        net_total: net_total_sum,
+        gross_total: net_total_sum+tax_total,
+        tax_total: tax_total,
+      }
+    end
+    result.sort{|a,b| a[:tax] <=> b[:tax]}
   end
 
   private
